@@ -11,17 +11,19 @@ function App() {
   const [infos, setInfos] = useState(null)
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8001/parameters')
-      .then(res => {
-        console.log(res)
-        if (res.status === 200) {
-          setInfos(res.data)
-        }
-      })
-      .catch(e => {
-        console.log(e)
-      })
+    setInterval(() => {
+      axios
+        .get('http://localhost:8001/parameters')
+        .then(res => {
+          console.log(res)
+          if (res.status === 200) {
+            setInfos(res.data)
+          }
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }, 5000);
   }, [])
 
   useEffect(() => {
