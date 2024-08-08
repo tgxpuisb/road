@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Card, Row, Col } from 'antd';
 import Granim from 'granim'
 import axios from 'axios';
+import videojs from 'video.js';
 import './App.css';
 
 function App() {
@@ -73,6 +74,10 @@ function App() {
     //       }
     //   }
     // })
+
+    videojs('my-video1')
+    videojs('my-video2')
+    videojs('my-video3')
   }, [])
 
   return (
@@ -110,17 +115,17 @@ function App() {
       <Card title="视频播放列表">
         <Row gutter={24} style={{marginBottom: 24}} className="video-box">
           <Col span={8}>
-            <video controls>
+            <video id="my-video1" class="video-js" controls preload="auto">
               <source src="http://localhost:8000/path/path1/stream.m3u8" type="application/x-mpegURL" />
             </video>
           </Col>
           <Col span={8}>
-            <video controls>
+            <video id="my-video2" class="video-js" controls preload="auto">
               <source src="http://localhost:8000/path/path2/stream.m3u8" type="application/x-mpegURL" />
             </video>
           </Col>
           <Col span={8}>
-            <video controls>
+            <video id="my-video3" class="video-js" controls preload="auto">
               <source src="http://localhost:8000/path/path3/stream.m3u8" type="application/x-mpegURL" />
             </video>
           </Col>
