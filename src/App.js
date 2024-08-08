@@ -101,20 +101,28 @@ function App() {
       <Row style={{marginBottom: 24}}>
         <Col span={24}>
           <Card title="流量整合图">
-            <canvas className="tunnel" id="tunnel-1"></canvas>
+            <div className='tunnel-bg'>
+              <canvas className="tunnel" id="tunnel-1"></canvas>
+            </div>
           </Card>
         </Col>
       </Row>
       <Card title="视频播放列表">
         <Row gutter={24} style={{marginBottom: 24}} className="video-box">
           <Col span={8}>
-            <video controls src="http://localhost:8001/path/path1/stream.m3u8"></video>
+            <video controls>
+              <source src="http://localhost:8000/path/path1/stream.m3u8" type="application/x-mpegURL" />
+            </video>
           </Col>
           <Col span={8}>
-            <video controls src="http://localhost:8001/path/path2/stream.m3u8"></video>
+            <video controls src="http://localhost:8001/path/path2/stream.m3u8">
+              <source src="http://localhost:8000/path/path2/stream.m3u8" type="application/x-mpegURL" />
+            </video>
           </Col>
           <Col span={8}>
-            <video controls src="http://localhost:8001/path/path3/stream.m3u8"></video>
+            <video controls src="http://localhost:8001/path/path3/stream.m3u8">
+              <source src="http://localhost:8000/path/path3/stream.m3u8" type="application/x-mpegURL" />
+            </video>
           </Col>
         </Row>
       </Card>
