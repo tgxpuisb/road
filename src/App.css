@@ -9,3 +9,7 @@
   margin-bottom: 8px;
   background-color: #ccc;
 }
+
+.video-box video {
+  width: 100%;
+}
