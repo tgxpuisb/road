@@ -17,3 +17,6 @@
 .tunnel-bg {
   background-image: url('../public/road.jpg');
 }
+.video-js {
+  width: 100%;
+}

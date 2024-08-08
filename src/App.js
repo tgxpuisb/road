@@ -3,6 +3,7 @@ import { Card, Row, Col } from 'antd';
 import Granim from 'granim'
 import axios from 'axios';
 import videojs from 'video.js';
+import 'video.js/dist/video-js.css'
 import './App.css';
 
 function App() {
