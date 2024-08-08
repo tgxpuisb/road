@@ -103,22 +103,13 @@ function App() {
       <Card title="视频播放列表">
         <Row gutter={24} style={{marginBottom: 24}}>
           <Col span={8}>
-            <video controls></video>
+            <video controls src="http://localhost:8000/path/path1/stream.m3u8"></video>
           </Col>
           <Col span={8}>
-            <video controls></video>
+            <video controls src="http://localhost:8000/path/path2/stream.m3u8"></video>
           </Col>
           <Col span={8}>
-            <video controls></video>
-          </Col>
-          <Col span={8}>
-            <video controls></video>
-          </Col>
-          <Col span={8}>
-            <video controls></video>
-          </Col>
-          <Col span={8}>
-            <video controls></video>
+            <video controls src="http://localhost:8000/path/path3/stream.m3u8"></video>
           </Col>
         </Row>
       </Card>
