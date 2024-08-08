@@ -115,12 +115,12 @@ function App() {
             </video>
           </Col>
           <Col span={8}>
-            <video controls src="http://localhost:8001/path/path2/stream.m3u8">
+            <video controls>
               <source src="http://localhost:8000/path/path2/stream.m3u8" type="application/x-mpegURL" />
             </video>
           </Col>
           <Col span={8}>
-            <video controls src="http://localhost:8001/path/path3/stream.m3u8">
+            <video controls>
               <source src="http://localhost:8000/path/path3/stream.m3u8" type="application/x-mpegURL" />
             </video>
           </Col>
