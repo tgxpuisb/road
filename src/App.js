@@ -117,17 +117,17 @@ function App() {
       </Row>
       <Card title="视频播放列表">
         <Row gutter={24} style={{marginBottom: 24}} className="video-box">
-          <Col span={8}>
+          <Col span={8} style={{position: 'relative'}}>
             <video id="my-video1" class="video-js" controls preload="auto">
               <source src="http://localhost:8000/path/path1/stream.m3u8" type="application/x-mpegURL" />
             </video>
           </Col>
-          <Col span={8}>
+          <Col span={8} style={{position: 'relative'}}>
             <video id="my-video2" class="video-js" controls preload="auto">
               <source src="http://localhost:8000/path/path2/stream.m3u8" type="application/x-mpegURL" />
             </video>
           </Col>
-          <Col span={8}>
+          <Col span={8} style={{position: 'relative'}}>
             <video id="my-video3" class="video-js" controls preload="auto">
               <source src="http://localhost:8000/path/path3/stream.m3u8" type="application/x-mpegURL" />
             </video>

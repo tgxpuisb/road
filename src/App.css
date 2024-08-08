@@ -19,4 +19,8 @@
 }
 .video-js {
   width: 100%;
+  position: absolute;
+  padding-bottom: 56.25%;
+  top: 0;
+  left: 0;
 }
