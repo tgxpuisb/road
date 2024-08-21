@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Card, Row, Col } from 'antd';
-import Granim from 'granim'
+// import Granim from 'granim'
 import axios from 'axios';
 import videojs from 'video.js';
+import { Chart, Line, Point } from 'bizcharts';
 import 'video.js/dist/video-js.css'
 import './App.css';
 
 function App() {
 
   const [infos, setInfos] = useState(null)
+  const [lineData, setLineData] = useState([])
 
   useEffect(() => {
     setInterval(() => {
@@ -27,8 +29,15 @@ function App() {
       .get('http://localhost:8001/history')
       .then(res => {
         console.log(res)
-        if (res.status === 200) {
+        if (res.status === 200 && res.data) {
           // setInfos(res.data)
+          const data = res.data?.historydata ?? [].map(it => {
+            return {
+              time: it[0],
+              value: it[1]
+            }
+          })
+          setLineData(data)
         }
       })
       .catch(e => {
@@ -82,15 +91,21 @@ function App() {
           </Card>
         </Col> */}
       </Row>
-      {/* <Row style={{marginBottom: 24}}>
+      <Row style={{marginBottom: 24}}>
         <Col span={24}>
-          <Card title="流量整合图">
-            <div className='tunnel-bg'>
-              <canvas className="tunnel" id="tunnel-1"></canvas>
-            </div>
+          <Card title="数据趋势">
+            <Chart
+              appendPadding={[10, 0, 0, 10]}
+              autoFit
+              height={500}
+              data={lineData}
+            >
+              <Line position="time*value" />
+              <Point position="time*value" />
+            </Chart>
           </Card>
         </Col>
-      </Row> */}
+      </Row>
       <Card title="视频播放列表">
         <Row gutter={24} style={{marginBottom: 24}} className="video-box">
           <Col span={8}>
