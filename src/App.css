@@ -19,8 +19,8 @@
 }
 .video-js {
   width: 100%;
-  position: absolute;
-  padding-bottom: 56.25%;
+  /* position: absolute; */
+  height: 418px;
   top: 0;
   left: 0;
 }
