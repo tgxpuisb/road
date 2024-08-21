@@ -28,7 +28,6 @@ function App() {
     axios
       .get('http://localhost:8001/history')
       .then(res => {
-        console.log(res)
         if (res.status === 200 && res.data) {
           // setInfos(res.data)
           const data = res.data?.historydata ?? [].map(it => {
@@ -37,6 +36,7 @@ function App() {
               value: it[1]
             }
           })
+          console.log(data)
           setLineData(data)
         }
       })
