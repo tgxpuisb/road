@@ -95,21 +95,21 @@ function App() {
         <Row gutter={24} style={{marginBottom: 24}} className="video-box">
           <Col span={8}>
             <div style={{position: 'relative', width: '100%'}}>
-              <video id="my-video1" class="video-js" controls preload="auto">
+              <video id="my-video1" className="video-js" controls preload="auto">
                 <source src="http://localhost:8000/path/path1/stream.m3u8" type="application/x-mpegURL" />
               </video>
             </div>
           </Col>
           <Col span={8}>
             <div style={{position: 'relative', width: '100%'}}>
-              <video id="my-video2" class="video-js" controls preload="auto">
+              <video id="my-video2" className="video-js" controls preload="auto">
                 <source src="http://localhost:8000/path/path2/stream.m3u8" type="application/x-mpegURL" />
               </video>
             </div>
           </Col>
           <Col span={8}>
             <div style={{position: 'relative', width: '100%'}}>
-              <video id="my-video3" class="video-js" controls preload="auto">
+              <video id="my-video3" className="video-js" controls preload="auto">
                 <source src="http://localhost:8000/path/path3/stream.m3u8" type="application/x-mpegURL" />
               </video>
             </div>
