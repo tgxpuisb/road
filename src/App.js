@@ -30,7 +30,7 @@ function App() {
       .then(res => {
         if (res.status === 200 && res.data) {
           // setInfos(res.data)
-          const data = res.data?.historydata ?? [].map(it => {
+          const data = (res.data?.historydata ?? []).map(it => {
             return {
               time: it[0],
               value: it[1]
