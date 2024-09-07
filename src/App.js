@@ -14,8 +14,6 @@ dayjs.locale('zh-cn');
 function App() {
 
   const [infos, setInfos] = useState(null)
-  const [lineData, setLineData] = useState([])
-
   useEffect(() => {
     setInterval(() => {
       axios
@@ -32,6 +30,7 @@ function App() {
   }, [])
 
   const [selectDay, setSelectDay] = useState(dayjs().format('YYYY-MM-DD'))
+  const [lineData, setLineData] = useState([])
 
   useEffect(() => {
     axios
@@ -61,6 +60,39 @@ function App() {
         console.log(e)
       })
   }, [selectDay])
+
+  const [rangeDate, setRangeDate] = useState([dayjs().subtract(12, 'hours').format('YYYY-MM-DD HH:mm:ss'), dayjs().format('YYYY-MM-DD HH:mm:ss')])
+  console.log('rangeDate', rangeDate)
+
+  useEffect(() => {
+    axios
+      .postForm('http://localhost:8001/history_h', {
+        start_date: dayjs(rangeDate[0], 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm'),
+        end_date: dayjs(rangeDate[1], 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm'),
+      })
+      .then(res => {
+        if (res.status === 200 && res.data) {
+          // setInfos(res.data)
+          // const data = []
+          // ;(res.data?.historydata ?? []).forEach(it => {
+          //   data.push({
+          //     time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+          //     label: '上行车流量',
+          //     value: it[1],
+          //   }, {
+          //     time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+          //     label: '下行车流量',
+          //     value: it[2],
+          //   })
+          // })
+          console.log('history_h', res.data)
+          // setLineData(data)
+        }
+      })
+      .catch(e => {
+        console.log(e)
+      })
+  }, [rangeDate])
 
   useEffect(() => {
     videojs('my-video1')
@@ -108,6 +140,24 @@ function App() {
               <Line position="time*value" color="label"/>
               <Point position="time*value" color="label"/>
             </Chart>
+          </Card>
+        </Col>
+      </Row>
+      <Row style={{marginBottom: 24}}>
+        <Col span={24}>
+          <Card title="历史详细车流量">
+            <DatePicker.RangePicker defaultValue={rangeDate.map(v => dayjs(v))} showTime onChange={(dates, datesString) => {
+              setRangeDate(datesString)
+            }}/>
+            {/* <Chart
+              appendPadding={[10, 0, 0, 10]}
+              autoFit
+              height={500}
+              data={lineData}
+            >
+              <Line position="time*value" color="label"/>
+              <Point position="time*value" color="label"/>
+            </Chart> */}
           </Card>
         </Col>
       </Row>
