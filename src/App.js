@@ -29,24 +29,6 @@ function App() {
           console.log(e)
         })
     }, 5000);
-    // axios
-    //   .get('http://localhost:8001/history')
-    //   .then(res => {
-    //     if (res.status === 200 && res.data) {
-    //       // setInfos(res.data)
-    //       const data = (res.data?.historydata ?? []).map(it => {
-    //         return {
-    //           time: it[0],
-    //           value: it[1]
-    //         }
-    //       })
-    //       console.log(data)
-    //       setLineData(data)
-    //     }
-    //   })
-    //   .catch(e => {
-    //     console.log(e)
-    //   })
   }, [])
 
   const [selectDay, setSelectDay] = useState(dayjs().format('YYYY-MM-DD'))
@@ -59,11 +41,17 @@ function App() {
       .then(res => {
         if (res.status === 200 && res.data) {
           // setInfos(res.data)
-          const data = (res.data?.historydata ?? []).map(it => {
-            return {
+          const data = []
+          ;(res.data?.historydata ?? []).forEach(it => {
+            data.push({
               time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              value: it[1]
-            }
+              label: '上行车流量',
+              value: it[1],
+            }, {
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+              label: '下行车流量',
+              value: it[2],
+            })
           })
           console.log(data)
           setLineData(data)
@@ -117,8 +105,8 @@ function App() {
               height={500}
               data={lineData}
             >
-              <Line position="time*value" />
-              <Point position="time*value" />
+              <Line position="time*value" color="label"/>
+              <Point position="time*value" color="label"/>
             </Chart>
           </Card>
         </Col>
