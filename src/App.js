@@ -170,15 +170,15 @@ function App() {
             <DatePicker.RangePicker defaultValue={rangeDate.map(v => dayjs(v))} showTime onChange={(dates, datesString) => {
               setRangeDate(datesString)
             }}/>
-            {/* <Chart
+            <Chart
               appendPadding={[10, 0, 0, 10]}
               autoFit
               height={500}
-              data={lineData}
+              data={lineData2}
             >
               <Line position="time*value" color="label"/>
               <Point position="time*value" color="label"/>
-            </Chart> */}
+            </Chart>
           </Card>
         </Col>
       </Row>
