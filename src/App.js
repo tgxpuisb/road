@@ -46,23 +46,6 @@ function App() {
   }, [])
 
   useEffect(() => {
-    // new Granim({
-    //   element: '#tunnel-1',
-    //   direction: 'left-right',
-    //   states : {
-    //       "default-state": {
-    //           gradients: [
-    //               [
-    //                 { color: '#ff3a00', pos: .2 },
-    //                 { color: '#00ff00', pos: .5 },
-    //                 { color: '#fd1d1d', pos: .8 },
-    //                 { color: '#38ef7d', pos: 1 }
-    //               ],
-    //           ]
-    //       }
-    //   }
-    // })
-
     videojs('my-video1')
     videojs('my-video2')
     videojs('my-video3')
@@ -74,22 +57,25 @@ function App() {
         <Col span={24}>
           <Card title="流量信息栏">
             {infos ? 
-              <>
-                <div>隧道内车辆总数：<b>{infos.parameter1}</b></div>
-                <div>隧道内第一段车辆数：<b>{infos.parameter2}</b></div>
-                <div>隧道内第二段车辆数：<b>{infos.parameter3}</b></div>
-                <div>每小时车流量：<b>{infos.parameter4}</b></div>
-              </>:
+              <Row gutter={24}>
+                <Col span={12}>
+                  <div>上行隧道内车辆总数：<b>{infos.parameter1}</b></div>
+                  <div>上行隧道内第一段车辆数：<b>{infos.parameter2}</b></div>
+                  <div>上行隧道内第二段车辆数：<b>{infos.parameter3}</b></div>
+                  <div>上行每小时车流量：<b>{infos.parameter4}</b></div>
+                </Col>
+                <Col span={12}>
+                  <div>下行隧道内车辆总数：<b>{infos.parameter5}</b></div>
+                  <div>下行隧道内第一段车辆数：<b>{infos.parameter6}</b></div>
+                  <div>下行隧道内第二段车辆数：<b>{infos.parameter7}</b></div>
+                  <div>下行每小时车流量：<b>{infos.parameter8}</b></div>
+                </Col>
+              </Row>:
               <span>暂无数据</span>
             }
             
           </Card>
         </Col>
-        {/* <Col span={16}>
-          <Card title="隧道车流量">
-            
-          </Card>
-        </Col> */}
       </Row>
       <Row style={{marginBottom: 24}}>
         <Col span={24}>
@@ -106,7 +92,7 @@ function App() {
           </Card>
         </Col>
       </Row>
-      <Card title="视频播放列表">
+      <Card title="视频播放列表-上行隧道">
         <Row gutter={24} style={{marginBottom: 24}} className="video-box">
           <Col span={8}>
             <div style={{position: 'relative', width: '100%'}}>
@@ -128,7 +114,31 @@ function App() {
                 <source src="http://localhost:8000/path/path3/stream.m3u8" type="application/x-mpegURL" />
               </video>
             </div>
-            
+          </Col>
+        </Row>
+      </Card>
+      <Card title="视频播放列表-下行隧道">
+        <Row gutter={24} style={{marginBottom: 24}} className="video-box">
+          <Col span={8}>
+            <div style={{position: 'relative', width: '100%'}}>
+              <video id="my-video1" className="video-js" controls preload="auto">
+                <source src="http://localhost:8000/path/path4/stream.m3u8" type="application/x-mpegURL" />
+              </video>
+            </div>
+          </Col>
+          <Col span={8}>
+            <div style={{position: 'relative', width: '100%'}}>
+              <video id="my-video2" className="video-js" controls preload="auto">
+                <source src="http://localhost:8000/path/path5/stream.m3u8" type="application/x-mpegURL" />
+              </video>
+            </div>
+          </Col>
+          <Col span={8}>
+            <div style={{position: 'relative', width: '100%'}}>
+              <video id="my-video3" className="video-js" controls preload="auto">
+                <source src="http://localhost:8000/path/path6/stream.m3u8" type="application/x-mpegURL" />
+              </video>
+            </div>
           </Col>
         </Row>
       </Card>
