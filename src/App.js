@@ -35,13 +35,8 @@ function App() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8001/history_d', {
-        params: {
-          date: selectDay
-        },
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+      .postForm('http://localhost:8001/history_d', {
+        date: selectDay,
       })
       .then(res => {
         if (res.status === 200 && res.data) {
