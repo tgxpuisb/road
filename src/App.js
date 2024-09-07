@@ -75,33 +75,27 @@ function App() {
           const data = []
           ;(res.data?.historydata ?? []).forEach(it => {
             data.push({
-              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              time: it[0],
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
               label: '上行总量',
               value: it[1],
             }, {
-              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              time: it[0],
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
               label: '上行段一',
               value: it[2],
             }, {
-              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              time: it[0],
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
               label: '上行段二',
               value: it[3],
             }, {
-              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              time: it[0],
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
               label: '下行总量',
               value: it[5],
             }, {
-              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              time: it[0],
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
               label: '下行段一',
               value: it[6],
             }, {
-              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              time: it[0],
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
               label: '下行段二',
               value: it[7],
             })
