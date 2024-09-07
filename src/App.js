@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Card, Row, Col } from 'antd';
+import { Card, Row, Col, DatePicker } from 'antd';
 // import Granim from 'granim'
 import axios from 'axios';
 import videojs from 'video.js';
 import { Chart, Line, Point } from 'bizcharts';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
 import 'video.js/dist/video-js.css'
 import './App.css';
+
+dayjs.locale('zh-cn');
 
 function App() {
 
@@ -25,8 +29,31 @@ function App() {
           console.log(e)
         })
     }, 5000);
+    // axios
+    //   .get('http://localhost:8001/history')
+    //   .then(res => {
+    //     if (res.status === 200 && res.data) {
+    //       // setInfos(res.data)
+    //       const data = (res.data?.historydata ?? []).map(it => {
+    //         return {
+    //           time: it[0],
+    //           value: it[1]
+    //         }
+    //       })
+    //       console.log(data)
+    //       setLineData(data)
+    //     }
+    //   })
+    //   .catch(e => {
+    //     console.log(e)
+    //   })
+  }, [])
+
+  const [selectDay, setSelectDay] = useState(dayjs().format('YYYY-MM-DD'))
+
+  useEffect(() => {
     axios
-      .get('http://localhost:8001/history')
+      .get('http://localhost:8001/history_d')
       .then(res => {
         if (res.status === 200 && res.data) {
           // setInfos(res.data)
@@ -43,7 +70,7 @@ function App() {
       .catch(e => {
         console.log(e)
       })
-  }, [])
+  }, [selectDay])
 
   useEffect(() => {
     videojs('my-video1')
@@ -73,13 +100,15 @@ function App() {
               </Row>:
               <span>暂无数据</span>
             }
-            
           </Card>
         </Col>
       </Row>
       <Row style={{marginBottom: 24}}>
         <Col span={24}>
-          <Card title="数据趋势">
+          <Card title="历史车流量">
+            <DatePicker defaultValue={dayjs(selectDay, 'YYYY-MM-DD')} onChange={(date, dateString) => {
+              setSelectDay(dateString)
+            }}/>
             <Chart
               appendPadding={[10, 0, 0, 10]}
               autoFit
