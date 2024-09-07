@@ -53,13 +53,15 @@ function App() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8001/history_d')
+      .postForm('http://localhost:8001/history_d', {
+        date: selectDay
+      })
       .then(res => {
         if (res.status === 200 && res.data) {
           // setInfos(res.data)
           const data = (res.data?.historydata ?? []).map(it => {
             return {
-              time: it[0],
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
               value: it[1]
             }
           })
