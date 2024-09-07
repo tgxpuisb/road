@@ -39,7 +39,6 @@ function App() {
       })
       .then(res => {
         if (res.status === 200 && res.data) {
-          // setInfos(res.data)
           const data = []
           ;(res.data?.historydata ?? []).forEach(it => {
             data.push({
@@ -62,6 +61,7 @@ function App() {
   }, [selectDay])
 
   const [rangeDate, setRangeDate] = useState([dayjs().subtract(12, 'hours').format('YYYY-MM-DD HH:mm:ss'), dayjs().format('YYYY-MM-DD HH:mm:ss')])
+  const [lineData2, setLineData2] = useState([])
   console.log('rangeDate', rangeDate)
 
   useEffect(() => {
@@ -72,21 +72,42 @@ function App() {
       })
       .then(res => {
         if (res.status === 200 && res.data) {
-          // setInfos(res.data)
-          // const data = []
-          // ;(res.data?.historydata ?? []).forEach(it => {
-          //   data.push({
-          //     time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-          //     label: '上行车流量',
-          //     value: it[1],
-          //   }, {
-          //     time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-          //     label: '下行车流量',
-          //     value: it[2],
-          //   })
-          // })
+          const data = []
+          ;(res.data?.historydata ?? []).forEach(it => {
+            data.push({
+              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+              time: it[0],
+              label: '上行总量',
+              value: it[1],
+            }, {
+              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+              time: it[0],
+              label: '上行段一',
+              value: it[2],
+            }, {
+              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+              time: it[0],
+              label: '上行段二',
+              value: it[3],
+            }, {
+              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+              time: it[0],
+              label: '下行总量',
+              value: it[5],
+            }, {
+              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+              time: it[0],
+              label: '下行段一',
+              value: it[6],
+            }, {
+              // time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+              time: it[0],
+              label: '下行段二',
+              value: it[7],
+            })
+          })
           console.log('history_h', res.data)
-          // setLineData(data)
+          setLineData2(data)
         }
       })
       .catch(e => {
