@@ -3,7 +3,7 @@ import { Card, Row, Col, DatePicker } from 'antd';
 // import Granim from 'granim'
 import axios from 'axios';
 import videojs from 'video.js';
-import { Chart, Line, Point } from 'bizcharts';
+import { Chart, Line, Point, Tooltip } from 'bizcharts';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import 'video.js/dist/video-js.css'
@@ -160,6 +160,7 @@ function App() {
             >
               <Line position="time*value" color="label"/>
               <Point position="time*value" color="label"/>
+              <Tooltip shared={true} showCrosshairs />
             </Chart>
           </Card>
         </Col>
@@ -178,6 +179,7 @@ function App() {
             >
               <Line position="time*value" color="label"/>
               <Point position="time*value" color="label"/>
+              <Tooltip shared={true} showCrosshairs />
             </Chart>
           </Card>
         </Col>
