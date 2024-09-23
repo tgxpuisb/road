@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Card, Row, Col, DatePicker } from 'antd';
+import { Card, Row, Col, DatePicker, Button } from 'antd';
+import { SwapOutlined } from '@ant-design/icons'
 // import Granim from 'granim'
 import axios from 'axios';
 import videojs from 'video.js';
@@ -31,6 +32,7 @@ function App() {
 
   const [selectDay, setSelectDay] = useState(dayjs().format('YYYY-MM-DD'))
   const [lineData, setLineData] = useState([])
+  const [videoPos, setVideoPos] = useState('TOP') // BOTTOM
 
   useEffect(() => {
     axios
@@ -61,7 +63,12 @@ function App() {
   }, [selectDay])
 
   const [rangeDate, setRangeDate] = useState([dayjs().subtract(12, 'hours').format('YYYY-MM-DD HH:mm:ss'), dayjs().format('YYYY-MM-DD HH:mm:ss')])
-  const [lineData2, setLineData2] = useState([])
+
+  const [trendData, setTrendData] = useState({
+    top: [],
+    bottom: []
+  })
+
   console.log('rangeDate', rangeDate)
 
   useEffect(() => {
@@ -72,9 +79,10 @@ function App() {
       })
       .then(res => {
         if (res.status === 200 && res.data) {
-          const data = []
+          const top = []
+          const bottom = []
           ;(res.data?.historydata ?? []).forEach(it => {
-            data.push({
+            top.push({
               time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
               label: '上行总量',
               value: it[1],
@@ -88,20 +96,33 @@ function App() {
               value: it[3],
             }, {
               time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              label: '下行总量',
-              value: it[5],
-            }, {
+              label: '上行段三',
+              value: it[4],
+            })
+
+            bottom.push({
               time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              label: '下行段一',
+              label: '下行总量',
               value: it[6],
             }, {
               time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
-              label: '下行段二',
+              label: '下行段一',
               value: it[7],
+            }, {
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+              label: '下行段二',
+              value: it[8],
+            }, {
+              time: dayjs(it[0], 'YYYY-MM-DD HH:mm:ss').format('HH:mm'),
+              label: '下行段三',
+              value: it[9],
             })
           })
           console.log('history_h', res.data)
-          setLineData2(data)
+          setTrendData({
+            top,
+            bottom,
+          })
         }
       })
       .catch(e => {
@@ -110,13 +131,62 @@ function App() {
   }, [rangeDate])
 
   useEffect(() => {
-    videojs('my-video1')
-    videojs('my-video2')
-    videojs('my-video3')
-  }, [])
+    let videos = []
+    if (videoPos === 'TOP') {
+      setTimeout(() => {
+        videos = [
+          videojs('my-video1'),
+          videojs('my-video2'),
+          videojs('my-video3'),
+          videojs('my-video4'),
+        ]
+      }, 200)
+    } else {
+      videos = [
+        videojs('my-video5'),
+        videojs('my-video6'),
+        videojs('my-video7'),
+        videojs('my-video8'),
+      ]
+    }
+    return () => {
+      videos.map(video => video?.dispose())
+      videos = null
+    }
+  }, [videoPos])
+
+  const topLamp = [2, 6, 11, 17].map(v => v-1)
+  const bottomLamp = [3, 8, 13, 18].map(v => v-1)
 
   return (
     <div style={{padding: 24}}>
+      <Card style={{marginBottom: 24}} title={`视频播放列表-${videoPos === 'TOP' ? '上行' : '下行'}隧道`} extra={<Button icon={<SwapOutlined />} type="primary" onClick={() => setVideoPos(videoPos === 'TOP' ? 'BOTTOM' : 'TOP')}>上/下行隧道切换</Button>}>
+        <Row gutter={24} style={{marginBottom: 24}} className="video-box">
+          {(videoPos === 'TOP' ? [1,2,3,4] : [5,6,7,8]).map(v => {
+            return (
+              <Col span={6} key={v}>
+                <div style={{position: 'relative', width: '100%'}}>
+                  <video id={`my-video${v}`} className="video-js" controls preload="auto">
+                    <source src={`http://localhost:8000/path/path${v}/stream.m3u8`} type="application/x-mpegURL" />
+                  </video>
+                </div>
+              </Col>
+            )
+          })}
+        </Row>
+        <Row justify={"center"}>
+          {Array.from({length: 20}).map((v, i) => {
+            const isSelected = videoPos === 'TOP' ? (topLamp.includes(i)) : (bottomLamp.includes(i))
+            return <div key={v} style={{
+              width: 32,
+              height: 32,
+              borderRadius: '50%',
+              backgroundColor: isSelected ? '#52C41A' : '#DDD',
+              marginRight: i !== 19 ? 24 : 0
+            }}></div>
+          })}
+        </Row>
+      </Card>
       <Row gutter={24} style={{marginBottom: 24}}>
         <Col span={24}>
           <Card title="流量信息栏">
@@ -159,9 +229,9 @@ function App() {
           </Card>
         </Col>
       </Row>
-      <Row style={{marginBottom: 24}}>
-        <Col span={24}>
-          <Card title="历史详细车流量">
+      <Row style={{marginBottom: 24}} gutter={24}>
+        <Col span={12}>
+          <Card title="历史详细车流量(上行)">
             <DatePicker.RangePicker defaultValue={rangeDate.map(v => dayjs(v))} showTime onChange={(dates, datesString) => {
               setRangeDate(datesString)
             }}/>
@@ -169,7 +239,24 @@ function App() {
               appendPadding={[10, 0, 0, 10]}
               autoFit
               height={500}
-              data={lineData2}
+              data={trendData.top}
+            >
+              <Line position="time*value" color="label"/>
+              <Point position="time*value" color="label"/>
+              <Tooltip shared={true} showCrosshairs />
+            </Chart>
+          </Card>
+        </Col>
+        <Col span={12}>
+          <Card title="历史详细车流量(下行)">
+            <DatePicker.RangePicker defaultValue={rangeDate.map(v => dayjs(v))} showTime onChange={(dates, datesString) => {
+              setRangeDate(datesString)
+            }}/>
+            <Chart
+              appendPadding={[10, 0, 0, 10]}
+              autoFit
+              height={500}
+              data={trendData.bottom}
             >
               <Line position="time*value" color="label"/>
               <Point position="time*value" color="label"/>
@@ -178,56 +265,6 @@ function App() {
           </Card>
         </Col>
       </Row>
-      <Card title="视频播放列表-上行隧道">
-        <Row gutter={24} style={{marginBottom: 24}} className="video-box">
-          <Col span={8}>
-            <div style={{position: 'relative', width: '100%'}}>
-              <video id="my-video1" className="video-js" controls preload="auto">
-                <source src="http://localhost:8000/path/path1/stream.m3u8" type="application/x-mpegURL" />
-              </video>
-            </div>
-          </Col>
-          <Col span={8}>
-            <div style={{position: 'relative', width: '100%'}}>
-              <video id="my-video2" className="video-js" controls preload="auto">
-                <source src="http://localhost:8000/path/path2/stream.m3u8" type="application/x-mpegURL" />
-              </video>
-            </div>
-          </Col>
-          <Col span={8}>
-            <div style={{position: 'relative', width: '100%'}}>
-              <video id="my-video3" className="video-js" controls preload="auto">
-                <source src="http://localhost:8000/path/path3/stream.m3u8" type="application/x-mpegURL" />
-              </video>
-            </div>
-          </Col>
-        </Row>
-      </Card>
-      <Card title="视频播放列表-下行隧道">
-        <Row gutter={24} style={{marginBottom: 24}} className="video-box">
-          <Col span={8}>
-            <div style={{position: 'relative', width: '100%'}}>
-              <video id="my-video1" className="video-js" controls preload="auto">
-                <source src="http://localhost:8000/path/path4/stream.m3u8" type="application/x-mpegURL" />
-              </video>
-            </div>
-          </Col>
-          <Col span={8}>
-            <div style={{position: 'relative', width: '100%'}}>
-              <video id="my-video2" className="video-js" controls preload="auto">
-                <source src="http://localhost:8000/path/path5/stream.m3u8" type="application/x-mpegURL" />
-              </video>
-            </div>
-          </Col>
-          <Col span={8}>
-            <div style={{position: 'relative', width: '100%'}}>
-              <video id="my-video3" className="video-js" controls preload="auto">
-                <source src="http://localhost:8000/path/path6/stream.m3u8" type="application/x-mpegURL" />
-              </video>
-            </div>
-          </Col>
-        </Row>
-      </Card>
     </div>
   );
 }
